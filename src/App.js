@@ -30,17 +30,43 @@ class App extends Component {
 
   getVehicles() {
     // axios (GET)
+    axios.get("HTTPS://joes-autos.herokuapp.com/api/vehicles").then((resp)=>{
+      console.log(11111111,resp)
+      this.setState({
+        vehiclesToDisplay:resp.data
+      })
+      toast.success("Yo Mama")
+      }).catch(error=>{
+        toast.error("Something Went Wrong")
+      })
     // setState with response -> vehiclesToDisplay
   }
 
   getPotentialBuyers() {
     // axios (GET)
     // setState with response -> buyersToDisplay
+    axios.get(`HTTPS://joes-autos.herokuapp.com/api/buyers`).then(resp=>{
+      console.log(333333,resp)
+      this.setState({
+        buyersToDisplay:resp.data
+      })
+      toast.success("YESSSSS")
+    }).catch(error=>{
+      toast.error("NOOOOOOOO")
+    })
   }
 
   sellCar(id) {
     // axios (DELETE)
     // setState with response -> vehiclesToDisplay
+    axios.delete(`HTTPS://joes-autos.herokuapp.com/api/vehicles/${id}`).then(resp=>{
+      this.setState({
+        vehiclesToDisplay: resp.data.vehicles
+      })
+      toast.success("Good")
+    }).catch(err=>{
+      toast.error("BAD")
+    })
   }
 
   filterByMake() {
@@ -48,6 +74,14 @@ class App extends Component {
 
     // axios (GET)
     // setState with response -> vehiclesToDisplay
+    axios.get(`HTTPS://joes-autos.herokuapp.com/api/vehicles`).then(resp=>{
+      // console.log(make)
+      const filtered = resp.data.filter(obj =>obj.make === make)
+      // console.log("Filtered:",filtered)
+      this.setState({
+      vehiclesToDisplay: filtered
+      })
+    })
   }
 
   filterByColor() {
@@ -60,6 +94,15 @@ class App extends Component {
   updatePrice(priceChange, id) {
     // axios (PUT)
     // setState with response -> vehiclesToDisplay
+    axios.put(`HTTPS://joes-autos.herokuapp.com/api/vehicles/${id}/${priceChange}`).then((resp)=>{
+      console.log(2222,resp)
+      this.setState({
+        vehiclesToDisplay: resp.data.vehicles
+      })
+      toast.success("Success!")
+    }).catch(err=>{
+      toast.error("Wrong, Wrong, Wrong!")
+    })
   }
 
   addCar() {
@@ -73,6 +116,14 @@ class App extends Component {
 
     // axios (POST)
     // setState with response -> vehiclesToDisplay
+    axios.post(`HTTPS://joes-autos.herokuapp.com/api/vehicles/`,newCar).then(resp=>{
+      this.setState({
+        vehiclesToDisplay: resp.data.vehicles
+      })
+      toast.success("GOOJAB")
+    }).catch(err=>{
+      ToastContainer.error("Nope!")
+    })
   }
 
   addBuyer() {
